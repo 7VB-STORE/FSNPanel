@@ -2,7 +2,7 @@
 
 **FSN Panel** is a panel for launching multiple CS2 accounts simultaneously, managing their windows, and collecting lobbies.
 
-Created in 30 hours using a chat.
+Created in 30 hours using Chat GPT.
 
 ---
 
