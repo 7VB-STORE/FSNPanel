@@ -22,7 +22,7 @@ icon_base64 = b"""iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAQAAAD2e2DtAAAAAmJLR0QA/4ePzL
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
-        self.title("FSN not Autofarm panel | v.0.0.1")
+        self.title("FSN not Autofarm panel | v.0.0.2")
         self.geometry("1100x580")
 
         self.icon_photo = tk.PhotoImage(data=icon_base64)
