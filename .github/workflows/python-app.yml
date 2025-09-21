@@ -32,11 +32,11 @@ jobs:
 
     - name: Build executable with PyInstaller
       run: |
-        pyinstaller --noconfirm --onefile --windowed --uac-admin "main.py"
+        pyinstaller --noconfirm --onefile --windowed --uac-admin --name FSN --icon Icon1.ico "main.py"
 
     - name: Create ZIP package
       run: |
-        powershell Compress-Archive -Path dist\main.exe, settings -DestinationPath FSN_Panel.zip -Force
+        powershell Compress-Archive -Path dist\FSN.exe, settings, BES, SteamRouteTool -DestinationPath FSN_Panel.zip -Force
 
     - name: Upload release
       uses: softprops/action-gh-release@v2
