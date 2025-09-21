@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import base64
 import hashlib, hmac
@@ -425,21 +426,38 @@ class Account:
         except Exception as e:
             print(f"Ошибка записи runtime.json: {e}")
 
-    def MonitorCS2(self, interval: float = 2.0):
+    def MonitorCS2(self, interval: float = 2.0, retry_delay: float = 10.0):
         """
-        Отслеживает процесс CS2. Если он пропадает, завершает Steam и меняет цвет на стандартный.
+        Отслеживает процесс CS2. Если он пропадает, перепроверяет через retry_delay секунд.
+        Если после повторной проверки процесс всё ещё отсутствует, завершает Steam и меняет цвет на стандартный.
         Запускается в отдельном потоке.
         """
-        import threading
         self._stop_monitoring = False
+
         def monitor():
             while not self._stop_monitoring:
-                if self.CS2Process:
-                    if not psutil.pid_exists(self.CS2Process.pid):
-                        print("CS2.exe пропал, убиваем Steam...")
-                        self.KillSteamAndCS()
-                        self.setColor("#DCE4EE")
-                        break
+                # Если CS2Process не задан, просто ждём следующий интервал
+                if not getattr(self, 'CS2Process', None):
+                    time.sleep(interval)
+                    continue
+
+                # Если процесс существует, просто ждём следующий интервал
+                if psutil.pid_exists(self.CS2Process.pid):
+                    time.sleep(interval)
+                    continue
+
+                # Процесс пропал — перепроверяем через retry_delay секунд
+                print(f"CS2.exe не найден, перепроверяем через {retry_delay} секунд...")
+                time.sleep(retry_delay)
+
+                # Вторая проверка
+                if not psutil.pid_exists(self.CS2Process.pid):
+                    print("CS2.exe действительно пропал, убиваем Steam...")
+                    self.KillSteamAndCS()
+                    self.setColor("#DCE4EE")
+                    break
+
+                # Ждём интервал перед следующей проверкой
                 time.sleep(interval)
 
         thread = threading.Thread(target=monitor, daemon=True)

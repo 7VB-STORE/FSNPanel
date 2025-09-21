@@ -125,5 +125,6 @@ class AccountManager:
                 account.MonitorCS2(interval=5)  # запускаем мониторинг CS2
             except Exception as e:
                 print(f"Ошибка запуска {account.login}: {e}")
+                account.KillGame()
             finally:
                 self.accounts_start_queue.task_done()
