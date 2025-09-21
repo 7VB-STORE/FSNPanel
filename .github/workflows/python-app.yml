@@ -39,9 +39,9 @@ jobs:
       run: |
         powershell Compress-Archive -Path dist\main.exe, settings -DestinationPath FSN_Panel.zip -Force
 
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Upload release
+      uses: softprops/action-gh-release@v2
       with:
-        name: FSN_Panel_Package
-        path: FSN_Panel.zip
+        files: FSN_Panel.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
