@@ -32,7 +32,7 @@ jobs:
 
     - name: Build executable with PyInstaller
       run: |
-        pyinstaller --noconfirm --onefile --windowed --uac-admin --name FSN --icon Icon1.ico "main.py"
+        pyinstaller --noconfirm --onefile --windowed --uac-admin --name FSN --icon Icon1.ico --add-data "Icon1.ico;." "main.py"
 
     - name: Create ZIP package
       run: |

@@ -25,8 +25,13 @@ class App(customtkinter.CTk):
         super().__init__()
         self.title("FSN not Autofarm panel | v.0.0.2")
         self.geometry("1100x580")
-
-        icon_path = Path(os.path.dirname(os.path.abspath(sys.argv[0]))) / "Icon1.ico"
+        if hasattr(sys, "_MEIPASS"):
+            # Запуск внутри exe
+            base_path = Path(sys._MEIPASS)
+        else:
+            # Запуск как обычный скрипт
+            base_path = Path(__file__).parent.parent
+        icon_path = Path(base_path) / "Icon1.ico"
         self.iconbitmap(icon_path)
 
         self.grid_columnconfigure(1, weight=1)
