@@ -24,7 +24,7 @@ Created in 12 hours using Chat GPT.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/idk-this/FSN_Panel
+git clone https://github.com/7VB-STORE/FSNPanel
 cd FSN_Panel
 ```
 
